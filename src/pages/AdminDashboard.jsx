@@ -1,0 +1,212 @@
+import { useState, useEffect } from 'react'
+import { supabase } from '../lib/supabase'
+import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+
+const statusColors = {
+  pending: 'bg-yellow-100 text-yellow-700',
+  approved: 'bg-green-100 text-green-700',
+  rejected: 'bg-red-100 text-red-700',
+}
+
+export default function AdminDashboard() {
+  const [jobs, setJobs] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [filter, setFilter] = useState('all')
+  const [actionLoading, setActionLoading] = useState(null)
+  const { logout } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    fetchJobs()
+  }, [])
+
+  const fetchJobs = async () => {
+    setLoading(true)
+    const { data, error } = await supabase
+      .from('jobs')
+      .select('*')
+      .order('created_at', { ascending: false })
+    if (!error) setJobs(data || [])
+    else toast.error('Failed to load jobs')
+    setLoading(false)
+  }
+
+  const updateStatus = async (id, status, email, jobTitle) => {
+    setActionLoading(id + status)
+    const { error } = await supabase.from('jobs').update({ status }).eq('id', id)
+    if (error) {
+      toast.error('Failed to update status')
+    } else {
+      setJobs((prev) => prev.map((j) => (j.id === id ? { ...j, status } : j)))
+      toast.success(`Job ${status === 'approved' ? 'approved' : 'rejected'}!`)
+    }
+    setActionLoading(null)
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
+
+  const filtered = filter === 'all' ? jobs : jobs.filter((j) => j.status === filter)
+
+  const counts = {
+    all: jobs.length,
+    pending: jobs.filter((j) => j.status === 'pending').length,
+    approved: jobs.filter((j) => j.status === 'approved').length,
+    rejected: jobs.filter((j) => j.status === 'rejected').length,
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-gray-900">Admin Dashboard</h1>
+            <p className="text-sm text-gray-500">Manage all job submissions</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <button onClick={fetchJobs} className="btn-secondary text-sm flex items-center gap-2">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Refresh
+            </button>
+            <button onClick={handleLogout} className="text-sm text-gray-500 hover:text-gray-700">
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Stats */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          {[
+            { key: 'all', label: 'Total', color: 'text-gray-700', bg: 'bg-gray-50 border-gray-200' },
+            { key: 'pending', label: 'Pending', color: 'text-yellow-600', bg: 'bg-yellow-50 border-yellow-200' },
+            { key: 'approved', label: 'Approved', color: 'text-green-600', bg: 'bg-green-50 border-green-200' },
+            { key: 'rejected', label: 'Rejected', color: 'text-red-600', bg: 'bg-red-50 border-red-200' },
+          ].map((s) => (
+            <div key={s.key} className={`rounded-xl border ${s.bg} p-4 text-center cursor-pointer transition-all ${filter === s.key ? 'ring-2 ring-blue-500' : ''}`} onClick={() => setFilter(s.key)}>
+              <div className={`text-2xl font-bold ${s.color}`}>{counts[s.key]}</div>
+              <div className="text-xs text-gray-500 mt-0.5">{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Filter Tabs */}
+        <div className="flex gap-2 mb-4 flex-wrap">
+          {['all', 'pending', 'approved', 'rejected'].map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors capitalize ${filter === f ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+            >
+              {f} ({counts[f]})
+            </button>
+          ))}
+        </div>
+
+        {/* Table */}
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <svg className="animate-spin w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
+            <div className="text-4xl mb-3">📋</div>
+            <p className="text-gray-500 text-sm">No jobs found for this filter.</p>
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 border-b border-gray-100">
+                  <tr>
+                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">Institute</th>
+                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">Job Title</th>
+                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Category</th>
+                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Email</th>
+                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">Date</th>
+                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
+                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {filtered.map((job) => (
+                    <tr key={job.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-5 py-4">
+                        <div className="font-medium text-gray-900 max-w-[160px] truncate">{job.institute_name}</div>
+                        <div className="text-xs text-gray-400 mt-0.5">{job.location}</div>
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="text-gray-800 max-w-[180px] truncate">{job.job_title}</div>
+                      </td>
+                      <td className="px-5 py-4 hidden sm:table-cell">
+                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{job.category}</span>
+                      </td>
+                      <td className="px-5 py-4 hidden md:table-cell text-gray-500 text-xs">{job.email}</td>
+                      <td className="px-5 py-4 hidden lg:table-cell text-gray-400 text-xs">
+                        {new Date(job.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </td>
+                      <td className="px-5 py-4">
+                        <span className={`text-xs font-medium px-2.5 py-1 rounded-full capitalize ${statusColors[job.status]}`}>
+                          {job.status}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4">
+                        {job.status === 'pending' && (
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => updateStatus(job.id, 'approved', job.email, job.job_title)}
+                              disabled={actionLoading === job.id + 'approved'}
+                              className="text-xs bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md font-medium transition-colors disabled:opacity-50"
+                            >
+                              Approve
+                            </button>
+                            <button
+                              onClick={() => updateStatus(job.id, 'rejected', job.email, job.job_title)}
+                              disabled={actionLoading === job.id + 'rejected'}
+                              className="text-xs bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md font-medium transition-colors disabled:opacity-50"
+                            >
+                              Reject
+                            </button>
+                          </div>
+                        )}
+                        {job.status === 'approved' && (
+                          <button
+                            onClick={() => updateStatus(job.id, 'rejected', job.email, job.job_title)}
+                            disabled={actionLoading === job.id + 'rejected'}
+                            className="text-xs bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md font-medium transition-colors disabled:opacity-50"
+                          >
+                            Reject
+                          </button>
+                        )}
+                        {job.status === 'rejected' && (
+                          <button
+                            onClick={() => updateStatus(job.id, 'approved', job.email, job.job_title)}
+                            disabled={actionLoading === job.id + 'approved'}
+                            className="text-xs bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md font-medium transition-colors disabled:opacity-50"
+                          >
+                            Approve
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
