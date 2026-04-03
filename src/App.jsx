@@ -8,6 +8,7 @@ import PostJob from './pages/PostJob'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import CategoryPage from './pages/CategoryPage'
+import JobDetails from "./pages/JobDetails";
 
 function PublicLayout() {
   return (
@@ -22,6 +23,7 @@ function PublicLayout() {
         <Route path="/nursing" element={<CategoryPage />} />
         <Route path="/research-jobs" element={<CategoryPage />} />
         <Route path="/school-jobs" element={<CategoryPage />} />
+        <Route path="/job/:id" element={<JobDetails />} />
       </Routes>
     </>
   )

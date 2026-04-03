@@ -23,7 +23,7 @@ async function sendEmail(to: string, subject: string, html: string) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'FacultyPlus <noreply@yourdomain.com>',
+      from: 'CampusHire <noreply@yourdomain.com>',
       to: [to],
       subject,
       html,
@@ -63,8 +63,8 @@ serve(async (req) => {
       `Your Job Posting has been Approved — ${payload.jobTitle}`,
       `
         <h2>Congratulations! Your Job Posting is Live</h2>
-        <p>Your posting for <strong>${payload.jobTitle}</strong> at <strong>${payload.instituteName}</strong> has been approved and is now publicly visible on FacultyPlus.</p>
-        <p>Visit <a href="https://facultyplus.vercel.app">FacultyPlus</a> to view your listing.</p>
+        <p>Your posting for <strong>${payload.jobTitle}</strong> at <strong>${payload.instituteName}</strong> has been approved and is now publicly visible on CampusHire.</p>
+        <p>Visit <a href="https://CampusHire.vercel.app">CampusHire</a> to view your listing.</p>
       `
     )
   }

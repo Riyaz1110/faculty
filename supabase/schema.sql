@@ -1,5 +1,5 @@
 -- ============================================================
--- FacultyPlus — Supabase Database Setup
+-- CampusHire — Supabase Database Setup
 -- Run this in the Supabase SQL Editor
 -- ============================================================
 

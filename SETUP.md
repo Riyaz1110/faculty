@@ -1,4 +1,4 @@
-# FacultyPlus — Setup Guide
+# CampusHire — Setup Guide
 
 ## 1. Prerequisites
 

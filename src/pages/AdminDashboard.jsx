@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
+
 const statusColors = {
   pending: 'bg-yellow-100 text-yellow-700',
   approved: 'bg-green-100 text-green-700',
@@ -15,6 +16,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
   const [actionLoading, setActionLoading] = useState(null)
+  const [expandedRow, setExpandedRow] = useState(null);
   const { logout } = useAuth()
   const navigate = useNavigate()
 
@@ -136,72 +138,117 @@ export default function AdminDashboard() {
                     <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Email</th>
                     <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">Date</th>
                     <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
+                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">Description</th>
                     <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {filtered.map((job) => (
-                    <tr key={job.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-5 py-4">
-                        <div className="font-medium text-gray-900 max-w-[160px] truncate">{job.institute_name}</div>
-                        <div className="text-xs text-gray-400 mt-0.5">{job.location}</div>
-                      </td>
-                      <td className="px-5 py-4">
-                        <div className="text-gray-800 max-w-[180px] truncate">{job.job_title}</div>
-                      </td>
-                      <td className="px-5 py-4 hidden sm:table-cell">
-                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{job.category}</span>
-                      </td>
-                      <td className="px-5 py-4 hidden md:table-cell text-gray-500 text-xs">{job.email}</td>
-                      <td className="px-5 py-4 hidden lg:table-cell text-gray-400 text-xs">
-                        {new Date(job.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      </td>
-                      <td className="px-5 py-4">
-                        <span className={`text-xs font-medium px-2.5 py-1 rounded-full capitalize ${statusColors[job.status]}`}>
-                          {job.status}
-                        </span>
-                      </td>
-                      <td className="px-5 py-4">
-                        {job.status === 'pending' && (
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={() => updateStatus(job.id, 'approved', job.email, job.job_title)}
-                              disabled={actionLoading === job.id + 'approved'}
-                              className="text-xs bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md font-medium transition-colors disabled:opacity-50"
-                            >
-                              Approve
-                            </button>
-                            <button
-                              onClick={() => updateStatus(job.id, 'rejected', job.email, job.job_title)}
-                              disabled={actionLoading === job.id + 'rejected'}
-                              className="text-xs bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md font-medium transition-colors disabled:opacity-50"
-                            >
-                              Reject
-                            </button>
-                          </div>
-                        )}
-                        {job.status === 'approved' && (
-                          <button
-                            onClick={() => updateStatus(job.id, 'rejected', job.email, job.job_title)}
-                            disabled={actionLoading === job.id + 'rejected'}
-                            className="text-xs bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md font-medium transition-colors disabled:opacity-50"
-                          >
-                            Reject
-                          </button>
-                        )}
-                        {job.status === 'rejected' && (
-                          <button
-                            onClick={() => updateStatus(job.id, 'approved', job.email, job.job_title)}
-                            disabled={actionLoading === job.id + 'approved'}
-                            className="text-xs bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md font-medium transition-colors disabled:opacity-50"
-                          >
-                            Approve
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+  {filtered.map((job) => (
+    <>
+      <tr key={job.id} className="hover:bg-gray-50 transition-colors">
+        <td className="px-5 py-4">
+          <div className="font-medium text-gray-900 max-w-[160px] truncate">
+            {job.institute_name}
+          </div>
+          <div className="text-xs text-gray-400 mt-0.5">
+            {job.location}
+          </div>
+        </td>
+
+        <td className="px-5 py-4">
+          <div className="text-gray-800 max-w-[180px] truncate">
+            {job.job_title}
+          </div>
+        </td>
+
+        <td className="px-5 py-4 hidden sm:table-cell">
+          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+            {job.category}
+          </span>
+        </td>
+
+        <td className="px-5 py-4 hidden md:table-cell text-gray-500 text-xs">
+          {job.email}
+        </td>
+
+        <td className="px-5 py-4 hidden lg:table-cell text-gray-400 text-xs">
+          {new Date(job.created_at).toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })}
+        </td>
+
+        <td className="px-5 py-4">
+          <span className={`text-xs font-medium px-2.5 py-1 rounded-full capitalize ${statusColors[job.status]}`}>
+            {job.status}
+          </span>
+        </td>
+
+        {/* 🔽 NEW VIEW BUTTON */}
+        <td className="px-5 py-4">
+          <button
+            onClick={() =>
+              setExpandedRow(expandedRow === job.id ? null : job.id)
+            }
+            className="text-blue-600 text-xs font-medium"
+          >
+            {expandedRow === job.id ? "▲ Hide" : "▼ View"}
+          </button>
+        </td>
+
+        {/* ACTION BUTTONS */}
+        <td className="px-5 py-4">
+          {job.status === 'pending' && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => updateStatus(job.id, 'approved')}
+                className="text-xs bg-green-600 text-white px-3 py-1.5 rounded-md"
+              >
+                Approve
+              </button>
+              <button
+                onClick={() => updateStatus(job.id, 'rejected')}
+                className="text-xs bg-red-500 text-white px-3 py-1.5 rounded-md"
+              >
+                Reject
+              </button>
+            </div>
+          )}
+
+          {job.status === 'approved' && (
+            <button
+              onClick={() => updateStatus(job.id, 'rejected')}
+              className="text-xs bg-red-500 text-white px-3 py-1.5 rounded-md"
+            >
+              Reject
+            </button>
+          )}
+
+          {job.status === 'rejected' && (
+            <button
+              onClick={() => updateStatus(job.id, 'approved')}
+              className="text-xs bg-green-600 text-white px-3 py-1.5 rounded-md"
+            >
+              Approve
+            </button>
+          )}
+        </td>
+      </tr>
+
+      {/* 🔥 EXPANDED DESCRIPTION ROW */}
+      {expandedRow === job.id && (
+        <tr>
+          <td colSpan="8" className="px-5 py-4 bg-gray-50">
+            <div className="whitespace-pre-line text-sm text-gray-700 max-h-64 overflow-y-auto">
+              {job.description}
+            </div>
+          </td>
+        </tr>
+      )}
+    </>
+  ))}
+</tbody>
               </table>
             </div>
           </div>

@@ -11,6 +11,8 @@ const initialForm = {
   location: '',
   description: '',
   email: '',
+  post_date: '',
+  deadline: ''
 }
 
 export default function PostJob() {
@@ -121,8 +123,38 @@ export default function PostJob() {
                 className="input-field"
               />
             </div>
+            
           </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+      Post Date <span className="text-red-500">*</span>
+    </label>
+    <input
+      type="date"
+      name="post_date"
+      value={form.post_date}
+      onChange={handleChange}
+      required
+      className="input-field"
+    />
+  </div>
 
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+      Deadline <span className="text-red-500">*</span>
+    </label>
+    <input
+      type="date"
+      name="deadline"
+      value={form.deadline}
+      onChange={handleChange}
+      required
+      className="input-field"
+    />
+  </div>
+</div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Contact Email <span className="text-red-500">*</span></label>
             <input
@@ -148,6 +180,7 @@ export default function PostJob() {
               className="input-field resize-none"
             />
           </div>
+          
 
           <div className="pt-2">
             <button type="submit" disabled={submitting} className="btn-primary w-full text-sm">

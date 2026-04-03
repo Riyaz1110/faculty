@@ -62,28 +62,65 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-          <span className="inline-block bg-blue-500 bg-opacity-50 text-blue-100 text-xs font-semibold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">
-            India's Premier Faculty Recruitment Portal
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-4">
-            Connect Faculty Talent<br className="hidden sm:block" /> with Top Institutions
-          </h1>
-          <p className="text-blue-100 text-lg max-w-2xl mx-auto mb-8">
-            Browse thousands of teaching and research opportunities across engineering, arts, science, nursing and more.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/engineering" className="bg-white text-blue-700 hover:bg-blue-50 font-semibold px-8 py-3 rounded-lg transition-colors text-sm">
-              Browse Jobs
-            </Link>
-            <Link to="/post-job" className="bg-blue-500 bg-opacity-60 hover:bg-opacity-80 text-white font-semibold px-8 py-3 rounded-lg border border-white border-opacity-30 transition-colors text-sm">
-              Post a Job
-            </Link>
-          </div>
-        </div>
-      </section>
+      <section className="relative min-h-[80vh] flex items-center justify-center text-white overflow-hidden">
 
+  {/* 🌄 Background Image */}
+  <div className="absolute inset-0">
+    <img
+      src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
+      className="w-full h-full object-cover"
+      alt="hero"
+    />
+  </div>
+
+  {/* 🌫️ Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-blue-900/60 to-black/70"></div>
+
+  {/* ✨ Glass Content */}
+  <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+
+    {/* Badge */}
+    <div className="inline-block mb-6 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs tracking-wide">
+      INDIA'S PREMIER FACULTY RECRUITMENT PORTAL
+    </div>
+
+    {/* Title */}
+    <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6 drop-shadow-lg">
+      Connect Faculty Talent <br className="hidden sm:block" />
+      with Top Institutions
+    </h1>
+
+    {/* Subtitle */}
+    <p className="text-gray-200 text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
+      Browse thousands of teaching and research opportunities across engineering, arts,
+      science, nursing and more.
+    </p>
+
+    {/* Buttons */}
+    <div className="flex flex-col sm:flex-row justify-center gap-4">
+
+      <Link
+        to="/engineering"
+        className="bg-white text-blue-700 font-semibold px-8 py-3 rounded-xl shadow-lg hover:scale-105 hover:bg-gray-100 transition-all"
+      >
+        Browse Jobs
+      </Link>
+
+      <Link
+        to="/post-job"
+        className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-3 rounded-xl hover:bg-white/20 transition-all"
+      >
+        Post a Job
+      </Link>
+
+    </div>
+
+  </div>
+
+  {/* ✨ Bottom fade effect */}
+  <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
+
+</section>
       {/* Stats */}
       <section className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
@@ -125,20 +162,37 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="bg-blue-600 text-white py-14">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">Hiring Faculty?</h2>
-          <p className="text-blue-100 mb-7 text-sm">Post your recruitment requirement and reach thousands of qualified educators across India.</p>
-          <Link to="/post-job" className="bg-white text-blue-700 hover:bg-blue-50 font-semibold px-8 py-3 rounded-lg transition-colors text-sm inline-block">
-            Post a Job Now
-          </Link>
-        </div>
-      </section>
+      <section className="relative py-16 text-white overflow-hidden">
+
+  {/* Background Gradient */}
+  <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900"></div>
+
+  {/* Content */}
+  <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
+
+    <h2 className="text-3xl font-bold mb-3">
+      Hiring Faculty?
+    </h2>
+
+    <p className="text-gray-300 mb-8">
+      Post your recruitment requirement and reach thousands of qualified educators across India.
+    </p>
+
+    <Link
+      to="/post-job"
+      className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-3 rounded-xl hover:bg-white/20 transition-all"
+    >
+      Post a Job Now
+    </Link>
+
+  </div>
+
+</section>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-400 py-8">
         <div className="max-w-7xl mx-auto px-4 text-center text-sm">
-          <p className="font-semibold text-white text-base mb-1">FacultyPlus</p>
+          <p className="font-semibold text-white text-base mb-1">CampusHire</p>
           <p>India's trusted faculty recruitment portal &copy; {new Date().getFullYear()}</p>
         </div>
       </footer>
