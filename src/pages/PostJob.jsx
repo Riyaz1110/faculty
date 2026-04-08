@@ -4,13 +4,45 @@ import toast from 'react-hot-toast'
 
 const categories = ['Engineering', 'Polytechnic', 'Arts & Science', 'Nursing', 'Research Jobs', 'School Jobs']
 
+const engineeringSubCategories = [
+  "Architecture Faculty Job", "Aeronautical Faculty Jobs", "Automobile Faculty Job",
+  "Agricultural Engineering", "BME Faculty Job", "Civil Faculty Job",
+  "Chemical Engg Faculty Job", "CSE Faculty Job", "EEE Faculty Job",
+  "ECE Faculty Job", "EIE Faculty Job", "Mechanical Faculty Job",
+  "MBA Faculty Jobs", "MCA Faculty Job", "Science and Humanities",
+  "View All Departments"
+]
+
+const jobTypes = [
+  "Full-time",
+  "Part-time",
+  "Substitute",
+  "Temporary / Contract"
+]
+
+const indianStates = [
+  "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam",
+  "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
+  "Karnataka", "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra",
+  "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Puducherry",
+  "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+  "Uttar Pradesh", "Uttarakhand", "West Bengal"
+]
+
 const initialForm = {
   institute_name: '',
   job_title: '',
+  job_type: '',
   category: '',
+  sub_category: '',
+  state: '',
   location: '',
   description: '',
   email: '',
+  contact_no: '',
+  advertisement_image: '',
+  company_logo: '',
   post_date: '',
   deadline: ''
 }
@@ -27,14 +59,22 @@ export default function PostJob() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSubmitting(true)
+    
+    // Clear sub_category if not Engineering
+    const submissionData = { ...form }
+    if (submissionData.category !== 'Engineering') {
+      submissionData.sub_category = ''
+    }
+
     try {
-      const { error } = await supabase.from('jobs').insert([{ ...form, status: 'pending' }])
+      const { error } = await supabase.from('jobs').insert([{ ...submissionData, status: 'pending' }])
       if (error) throw error
       setSubmitted(true)
       setForm(initialForm)
       toast.success('Job posted! Awaiting admin approval.')
     } catch (err) {
-      toast.error(err.message || 'Failed to submit. Please try again.')
+      toast.error('Failed to submit. Please ensure your old database table was recreated.')
+      console.error(err)
     } finally {
       setSubmitting(false)
     }
@@ -51,7 +91,7 @@ export default function PostJob() {
           </div>
           <h2 className="text-xl font-bold text-gray-900 mb-2">Submission Received!</h2>
           <p className="text-gray-500 text-sm mb-6">Your job posting has been submitted and is pending admin approval. You'll receive an email once it's approved.</p>
-          <button onClick={() => setSubmitted(false)} className="btn-primary text-sm w-full">
+          <button onClick={() => setSubmitted(false)} className="btn-primary text-sm w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition">
             Post Another Job
           </button>
         </div>
@@ -78,7 +118,7 @@ export default function PostJob() {
                 onChange={handleChange}
                 required
                 placeholder="e.g. ABC Engineering College"
-                className="input-field"
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
             <div>
@@ -90,20 +130,35 @@ export default function PostJob() {
                 onChange={handleChange}
                 required
                 placeholder="e.g. Assistant Professor - CSE"
-                className="input-field"
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Job Type <span className="text-red-500">*</span></label>
+              <select
+                name="job_type"
+                value={form.job_type}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+              >
+                <option value="">Select type</option>
+                {jobTypes.map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+            <div className="sm:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Category <span className="text-red-500">*</span></label>
               <select
                 name="category"
                 value={form.category}
                 onChange={handleChange}
                 required
-                className="input-field"
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
               >
                 <option value="">Select a category</option>
                 {categories.map((c) => (
@@ -111,61 +166,133 @@ export default function PostJob() {
                 ))}
               </select>
             </div>
+            
+            {form.category === 'Engineering' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Sub Category <span className="text-red-500">*</span></label>
+                <select
+                  name="sub_category"
+                  value={form.sub_category}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                >
+                  <option value="">Select sub category</option>
+                  {engineeringSubCategories.map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Location <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">State <span className="text-red-500">*</span></label>
+              <select
+                name="state"
+                value={form.state}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+              >
+                <option value="">Select a state</option>
+                {indianStates.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">City / Location <span className="text-red-500">*</span></label>
               <input
                 type="text"
                 name="location"
                 value={form.location}
                 onChange={handleChange}
                 required
-                placeholder="e.g. Chennai, Tamil Nadu"
-                className="input-field"
+                placeholder="e.g. Chennai"
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
-            
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-      Post Date <span className="text-red-500">*</span>
-    </label>
-    <input
-      type="date"
-      name="post_date"
-      value={form.post_date}
-      onChange={handleChange}
-      required
-      className="input-field"
-    />
-  </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Post Date <span className="text-red-500">*</span></label>
+              <input
+                type="date"
+                name="post_date"
+                value={form.post_date}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
 
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-      Deadline <span className="text-red-500">*</span>
-    </label>
-    <input
-      type="date"
-      name="deadline"
-      value={form.deadline}
-      onChange={handleChange}
-      required
-      className="input-field"
-    />
-  </div>
-</div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Contact Email <span className="text-red-500">*</span></label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-              placeholder="hr@institution.edu.in"
-              className="input-field"
-            />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Deadline <span className="text-red-500">*</span></label>
+              <input
+                type="date"
+                name="deadline"
+                value={form.deadline}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Contact Email <span className="text-red-500">*</span></label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                required
+                placeholder="hr@institution.edu.in"
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Contact Number</label>
+              <input
+                type="text"
+                name="contact_no"
+                value={form.contact_no}
+                onChange={handleChange}
+                placeholder="+91 9876543210"
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Advertisement Image URL</label>
+              <input
+                type="url"
+                name="advertisement_image"
+                value={form.advertisement_image}
+                onChange={handleChange}
+                placeholder="https://imgur.com/example.png"
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+              <p className="text-xs text-gray-400 mt-1">Provide a link to the recruitment advertisement banner.</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Company Logo URL</label>
+              <input
+                type="url"
+                name="company_logo"
+                value={form.company_logo}
+                onChange={handleChange}
+                placeholder="https://example.com/logo.png"
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+              <p className="text-xs text-gray-400 mt-1">Provide a link to the institution logo.</p>
+            </div>
           </div>
 
           <div>
@@ -177,13 +304,12 @@ export default function PostJob() {
               required
               rows={5}
               placeholder="Describe qualifications, responsibilities, pay scale, and any other relevant details..."
-              className="input-field resize-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none resize-none"
             />
           </div>
           
-
           <div className="pt-2">
-            <button type="submit" disabled={submitting} className="btn-primary w-full text-sm">
+            <button type="submit" disabled={submitting} className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded shadow transition">
               {submitting ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">

@@ -126,7 +126,7 @@ export default function CategoryPage() {
             <p className="text-sm text-gray-500">Check back soon — new positions are added regularly.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="flex flex-col gap-4 max-w-4xl mx-auto">
             {filteredJobs.map((job) => (
               <JobCard key={job.id} job={job} />
             ))}

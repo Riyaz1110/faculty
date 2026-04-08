@@ -9,23 +9,38 @@ import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import CategoryPage from './pages/CategoryPage'
 import JobDetails from "./pages/JobDetails";
+import SearchPage from "./pages/SearchPage";
+import ArticlePage from "./pages/ArticlePage";
+import AboutUs from "./pages/AboutUs";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
+import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 function PublicLayout() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/post-job" element={<PostJob />} />
-        <Route path="/engineering" element={<CategoryPage />} />
-        <Route path="/polytechnic" element={<CategoryPage />} />
-        <Route path="/arts-and-science" element={<CategoryPage />} />
-        <Route path="/nursing" element={<CategoryPage />} />
-        <Route path="/research-jobs" element={<CategoryPage />} />
-        <Route path="/school-jobs" element={<CategoryPage />} />
-        <Route path="/job/:id" element={<JobDetails />} />
-      </Routes>
-    </>
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/post-job" element={<PostJob />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/engineering" element={<CategoryPage />} />
+          <Route path="/polytechnic" element={<CategoryPage />} />
+          <Route path="/arts-and-science" element={<CategoryPage />} />
+          <Route path="/nursing" element={<CategoryPage />} />
+          <Route path="/research-jobs" element={<CategoryPage />} />
+          <Route path="/school-jobs" element={<CategoryPage />} />
+          <Route path="/job/:id" element={<JobDetails />} />
+          <Route path="/article/:id" element={<ArticlePage />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsConditions />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
   )
 }
 
@@ -33,6 +48,7 @@ export default function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <Toaster
           position="top-right"
           toastOptions={{

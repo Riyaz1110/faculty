@@ -239,9 +239,33 @@ export default function AdminDashboard() {
       {/* 🔥 EXPANDED DESCRIPTION ROW */}
       {expandedRow === job.id && (
         <tr>
-          <td colSpan="8" className="px-5 py-4 bg-gray-50">
-            <div className="whitespace-pre-line text-sm text-gray-700 max-h-64 overflow-y-auto">
-              {job.description}
+          <td colSpan="8" className="px-5 py-4 bg-gray-50 border-t border-gray-100 shadow-inner">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 text-sm">
+              <div>
+                {job.job_type && <p className="mb-1"><span className="font-semibold text-gray-700">Job Type:</span> <span className="text-gray-600">{job.job_type}</span></p>}
+                {job.sub_category && <p className="mb-1"><span className="font-semibold text-gray-700">Sub Category:</span> <span className="text-gray-600">{job.sub_category}</span></p>}
+                {job.state && <p className="mb-1"><span className="font-semibold text-gray-700">State:</span> <span className="text-gray-600">{job.state}</span></p>}
+                {job.location && <p className="mb-1"><span className="font-semibold text-gray-700">City:</span> <span className="text-gray-600">{job.location}</span></p>}
+              </div>
+              <div>
+                {job.contact_no && <p className="mb-1"><span className="font-semibold text-gray-700">Contact No:</span> <span className="text-gray-600">{job.contact_no}</span></p>}
+                {job.email && <p className="mb-1"><span className="font-semibold text-gray-700">Email:</span> <span className="text-gray-600">{job.email}</span></p>}
+                {job.advertisement_image && (
+                  <p className="mt-2">
+                    <span className="font-semibold text-gray-700 block mb-1">Advertisement Banner:</span>
+                    <a href={job.advertisement_image} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline bg-blue-50 px-3 py-1.5 rounded-md transition border border-blue-100">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                      View Image Attachment
+                    </a>
+                  </p>
+                )}
+              </div>
+            </div>
+            <div>
+              <span className="font-semibold text-gray-700 text-sm block mb-2">Description:</span>
+              <div className="whitespace-pre-line text-sm text-gray-600 max-h-64 overflow-y-auto bg-white p-4 rounded-lg border border-gray-200">
+                {job.description}
+              </div>
             </div>
           </td>
         </tr>

@@ -2,8 +2,23 @@ import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
+const engineeringSubCategories = [
+  "Architecture Faculty Job", "Aeronautical Faculty Jobs", "Automobile Faculty Job",
+  "Agricultural Engineering", "BME Faculty Job", "Civil Faculty Job",
+  "Chemical Engg Faculty Job", "CSE Faculty Job", "EEE Faculty Job",
+  "ECE Faculty Job", "EIE Faculty Job", "Mechanical Faculty Job",
+  "MBA Faculty Jobs", "MCA Faculty Job", "Science and Humanities",
+  "View All Departments"
+]
+
 const categories = [
-  { label: 'Engineering', path: '/engineering' },
+  {
+    label: 'Engineering',
+    subCategories: engineeringSubCategories.map(sub => ({
+      label: sub,
+      path: sub === "View All Departments" ? `/engineering` : `/search?cat=Engineering&sub=${encodeURIComponent(sub)}`
+    }))
+  },
   { label: 'Polytechnic', path: '/polytechnic' },
   { label: 'Arts & Science', path: '/arts-and-science' },
   { label: 'Nursing', path: '/nursing' },
@@ -16,6 +31,7 @@ export default function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState(null) // For mobile dropdown
 
   const handleLogout = () => {
     logout()
@@ -38,19 +54,50 @@ export default function Navbar() {
             <span className="text-xl font-bold text-gray-900">CampusHire</span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-1 relative">
             <Link to="/" className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
               Home
             </Link>
-            {categories.map((cat) => (
-              <Link
-                key={cat.path}
-                to={cat.path}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive(cat.path) ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
-              >
-                {cat.label}
-              </Link>
-            ))}
+            <Link to="/search" className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/search') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
+              Search Jobs
+            </Link>
+
+            {categories.map((cat) => {
+              if (cat.subCategories) {
+                return (
+                  <div key={cat.label} className="group relative inline-block">
+                    <button className="px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 flex items-center gap-1 transition-colors">
+                      {cat.label}
+                      <svg className="w-3 h-3 text-gray-400 group-hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    {/* Dropdown Menu */}
+                    <div className="absolute left-0 mt-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                      <div className="bg-white border border-gray-100 rounded-lg shadow-lg py-2 max-h-[70vh] overflow-y-auto">
+                        {cat.subCategories.map((sub, i) => (
+                          <Link
+                            key={i}
+                            to={sub.path}
+                            className={`block px-4 py-2 text-xs font-medium ${sub.label === 'View All Departments' ? 'text-blue-600 border-t mt-1 border-gray-50 hover:bg-blue-50' : 'text-gray-600 hover:bg-gray-50 hover:text-blue-600'}`}
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+
+              return (
+                <Link
+                  key={cat.path}
+                  to={cat.path}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive(cat.path) ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
+                >
+                  {cat.label}
+                </Link>
+              )
+            })}
           </div>
 
           <div className="flex items-center space-x-3">
@@ -68,7 +115,6 @@ export default function Navbar() {
               </div>
             ) : (
               <Link to="/admin/login" className="hidden md:inline-flex text-sm text-gray-500 hover:text-gray-700">
-                Admin
               </Link>
             )}
             <button
@@ -88,14 +134,46 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 py-2 px-4 space-y-1">
+        <div className="md:hidden bg-white border-t border-gray-100 py-2 px-4 space-y-1 overflow-y-auto max-h-[80vh]">
           <Link to="/" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>Home</Link>
-          {categories.map((cat) => (
-            <Link key={cat.path} to={cat.path} className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>
-              {cat.label}
-            </Link>
-          ))}
-          <Link to="/post-job" className="block px-3 py-2 rounded-md text-sm font-medium text-blue-600 hover:bg-blue-50" onClick={() => setMenuOpen(false)}>Post a Job</Link>
+          <Link to="/search" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>Search Jobs</Link>
+
+          {categories.map((cat) => {
+            if (cat.subCategories) {
+              return (
+                <div key={cat.label} className="border-b border-gray-50 pb-1 mb-1">
+                  <button
+                    className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 flex justify-between items-center"
+                    onClick={() => setOpenDropdown(openDropdown === cat.label ? null : cat.label)}
+                  >
+                    {cat.label}
+                    <svg className={`w-4 h-4 transition-transform ${openDropdown === cat.label ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </button>
+                  {openDropdown === cat.label && (
+                    <div className="pl-6 space-y-1 py-1">
+                      {cat.subCategories.map((sub, i) => (
+                        <Link
+                          key={i}
+                          to={sub.path}
+                          className="block px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            }
+            return (
+              <Link key={cat.path} to={cat.path} className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>
+                {cat.label}
+              </Link>
+            )
+          })}
+
+          <Link to="/post-job" className="block px-3 py-2 rounded-md text-sm font-medium text-blue-600 hover:bg-blue-50 mt-2" onClick={() => setMenuOpen(false)}>Post a Job</Link>
           {!isAdmin && <Link to="/admin/login" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>Admin Login</Link>}
         </div>
       )}
