@@ -8,7 +8,7 @@ export default function TermsConditions() {
         
         <div className="prose prose-blue max-w-none text-gray-700 space-y-6">
           <p>
-            By using this web site, you agree to the Terms and Conditions set forth by CampusHire, ("CampusHire"). If you do not agree with them, please exit this web site. CampusHire reserves the right to change these Terms and Conditions, at its sole discretion, at any time. If you have a question about our Terms and Conditions, please send an e-mail to: <a href="mailto:info@campushire.com" className="text-blue-600 hover:underline">info@campushire.com</a>.
+            By using this web site, you agree to the Terms and Conditions set forth by CampusHire, ("CampusHire"). If you do not agree with them, please exit this web site. CampusHire reserves the right to change these Terms and Conditions, at its sole discretion, at any time. If you have a question about our Terms and Conditions, please send an e-mail to: <a href="mailto:info@campushire.com" className="text-violet-600 hover:underline">info@campushire.com</a>.
           </p>
 
           <h2 className="text-xl font-semibold text-gray-900 mt-8 mb-3">1. Intellectual Property Rights</h2>
@@ -19,7 +19,7 @@ export default function TermsConditions() {
           <h2 className="text-xl font-semibold text-gray-900 mt-8 mb-3">2. Appropriate Site Usage</h2>
           <p>CampusHire may be used by individuals seeking employment and employers seeking employees.</p>
           <p>The following are prohibited:</p>
-          <ul className="list-disc pl-5 space-y-2 marker:text-blue-500">
+          <ul className="list-disc pl-5 space-y-2 marker:text-violet-500">
             <li>Re-posting job ads, career articles, interviews and other site content.</li>
             <li>Posting incomplete, false or inaccurate information or information which is not your own.</li>
             <li>Posting non-resume information such as opinion pieces or notices.</li>
@@ -29,7 +29,7 @@ export default function TermsConditions() {
 
           <h2 className="text-xl font-semibold text-gray-900 mt-8 mb-3">3. Web Site Security Rules</h2>
           <p>Users are prohibited from:</p>
-          <ul className="list-disc pl-5 space-y-2 marker:text-blue-500">
+          <ul className="list-disc pl-5 space-y-2 marker:text-violet-500">
             <li>Trying to access data not intended for use or logging into an account which the user is not authorized to use;</li>
             <li>Attempting to penetrate, scan or test the vulnerability of the CampusHire web site;</li>
             <li>Trying to interfere with service to any user or network, or by "SQL injection," "flooding," "mailbombing," "crashing" or submitting a virus to CampusHire;</li>

@@ -21,7 +21,7 @@ export default function AboutUs() {
             CampusHire is committed to giving back. We have donated thousands of dollars to organizations and schools that support education. We have also helped individual teachers fund educational purchases for their classrooms. Here are some of the groups and individuals we have donated to:
           </p>
 
-          <ul className="list-disc pl-5 space-y-4 marker:text-blue-500">
+          <ul className="list-disc pl-5 space-y-4 marker:text-violet-500">
             <li>
               <strong>Science Club for Girls</strong><br />
               Cambridge, Massachusetts
@@ -37,12 +37,12 @@ export default function AboutUs() {
             </li>
             <li>
               <strong>Denver School of Science and Technology</strong><br />
-              <a href="http://dsstpublicschools.org" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">dsstpublicschools.org</a><br />
+              <a href="http://dsstpublicschools.org" className="text-violet-600 hover:underline" target="_blank" rel="noopener noreferrer">dsstpublicschools.org</a><br />
               Denver, Colorado
             </li>
             <li>
               <strong>Silicon Valley Education Foundation</strong><br />
-              <a href="http://svefoundation.org" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">svefoundation.org</a><br />
+              <a href="http://svefoundation.org" className="text-violet-600 hover:underline" target="_blank" rel="noopener noreferrer">svefoundation.org</a><br />
               San Jose, California
             </li>
             <li>
@@ -54,7 +54,7 @@ export default function AboutUs() {
           <div className="mt-12 pt-8 border-t border-gray-100">
             <p className="mb-6">
               We are always looking for ways to improve CampusHire. Please send your feedback to:{' '}
-              <a href="mailto:info@campushire.com" className="text-blue-600 font-medium hover:underline">
+              <a href="mailto:info@campushire.com" className="text-violet-600 font-medium hover:underline">
                 info@campushire.com
               </a>. Thanks for stopping by.
             </p>

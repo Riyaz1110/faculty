@@ -93,7 +93,7 @@ export default function AdminDashboard() {
             { key: 'approved', label: 'Approved', color: 'text-green-600', bg: 'bg-green-50 border-green-200' },
             { key: 'rejected', label: 'Rejected', color: 'text-red-600', bg: 'bg-red-50 border-red-200' },
           ].map((s) => (
-            <div key={s.key} className={`rounded-xl border ${s.bg} p-4 text-center cursor-pointer transition-all ${filter === s.key ? 'ring-2 ring-blue-500' : ''}`} onClick={() => setFilter(s.key)}>
+            <div key={s.key} className={`rounded-xl border ${s.bg} p-4 text-center cursor-pointer transition-all ${filter === s.key ? 'ring-2 ring-violet-500' : ''}`} onClick={() => setFilter(s.key)}>
               <div className={`text-2xl font-bold ${s.color}`}>{counts[s.key]}</div>
               <div className="text-xs text-gray-500 mt-0.5">{s.label}</div>
             </div>
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors capitalize ${filter === f ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors capitalize ${filter === f ? 'bg-violet-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
             >
               {f} ({counts[f]})
             </button>
@@ -116,7 +116,7 @@ export default function AdminDashboard() {
         {/* Table */}
         {loading ? (
           <div className="flex justify-center py-20">
-            <svg className="animate-spin w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin w-8 h-8 text-violet-500" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
@@ -191,7 +191,7 @@ export default function AdminDashboard() {
             onClick={() =>
               setExpandedRow(expandedRow === job.id ? null : job.id)
             }
-            className="text-blue-600 text-xs font-medium"
+            className="text-violet-600 text-xs font-medium"
           >
             {expandedRow === job.id ? "▲ Hide" : "▼ View"}
           </button>
@@ -253,7 +253,7 @@ export default function AdminDashboard() {
                 {job.advertisement_image && (
                   <p className="mt-2">
                     <span className="font-semibold text-gray-700 block mb-1">Advertisement Banner:</span>
-                    <a href={job.advertisement_image} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline bg-blue-50 px-3 py-1.5 rounded-md transition border border-blue-100">
+                    <a href={job.advertisement_image} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-violet-600 hover:text-violet-800 hover:underline bg-violet-50 px-3 py-1.5 rounded-md transition border border-violet-100">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                       View Image Attachment
                     </a>

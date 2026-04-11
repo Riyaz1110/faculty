@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo.png';
+import { useAuth } from '../context/AuthContext';
 
 const ChevronIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -32,10 +34,12 @@ const TwitterIcon = () => (
 );
 
 export default function Footer() {
+  const { signInWithGoogle } = useAuth();
+
   return (
     <footer className="flex flex-col text-sm font-sans bg-gray-900 text-gray-400">
       {/* Top blue accent border */}
-      <div className="h-1 w-full bg-blue-600"></div>
+      <div className="h-1 w-full bg-violet-600"></div>
 
       {/* Main footer content */}
       <div className="max-w-[1200px] w-full mx-auto px-6 py-12">
@@ -44,47 +48,47 @@ export default function Footer() {
           {/* JOB SEEKERS */}
           <div className="flex flex-col gap-3">
             <h3 className="text-white font-bold text-sm tracking-wide mb-2 uppercase">Job Seekers</h3>
-            <Link to="/search" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <Link to="/search" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Find a Job
             </Link>
-            <Link to="#" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <Link to="#" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Job Alerts
             </Link>
-            <Link to="#" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <Link to="#" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Post a Resume
             </Link>
-            <Link to="#" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <button onClick={signInWithGoogle} className="flex items-center hover:text-violet-400 transition-colors duration-200 w-full text-left">
               <ChevronIcon /> Account Login
-            </Link>
+            </button>
           </div>
 
           {/* EMPLOYERS */}
           <div className="flex flex-col gap-3">
             <h3 className="text-white font-bold text-sm tracking-wide mb-2 uppercase">Employers</h3>
-            <Link to="#" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <button onClick={signInWithGoogle} className="flex items-center hover:text-violet-400 transition-colors duration-200 w-full text-left">
               <ChevronIcon /> Register
-            </Link>
-            <Link to="#" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            </button>
+            <Link to="/post-job" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Post a Job
             </Link>
-            <Link to="#" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <Link to="/post-job" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Advertising
             </Link>
-            <Link to="#" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <button onClick={signInWithGoogle} className="flex items-center hover:text-violet-400 transition-colors duration-200 w-full text-left">
               <ChevronIcon /> Account Login
-            </Link>
+            </button>
           </div>
 
           {/* COMPANY */}
           <div className="flex flex-col gap-3">
             <h3 className="text-white font-bold text-sm tracking-wide mb-2 uppercase">Company</h3>
-            <Link to="/about-us" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <Link to="/about-us" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> About Us
             </Link>
-            <Link to="/privacy-policy" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <Link to="/privacy-policy" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Privacy Policy
             </Link>
-            <Link to="/terms" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <Link to="/terms" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Terms and Conditions
             </Link>
           </div>
@@ -92,10 +96,10 @@ export default function Footer() {
           {/* CONTACT */}
           <div className="flex flex-col gap-3">
             <h3 className="text-white font-bold text-sm tracking-wide mb-2 uppercase">Contact</h3>
-            <a href="mailto:info@campushire.com" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <a href="mailto:info@campushire.com" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <MailIcon /> info@campushire.com
             </a>
-            <a href="tel:5105087386" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <a href="tel:5105087386" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <PhoneIcon /> 510-508-7386
             </a>
           </div>
@@ -103,10 +107,10 @@ export default function Footer() {
           {/* SOCIAL */}
           <div className="flex flex-col gap-3 lg:border-l lg:border-gray-800 lg:pl-8">
             <h3 className="text-white font-bold text-sm tracking-wide mb-2 uppercase">Social</h3>
-            <a href="#" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <a href="#" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <FacebookIcon /> Facebook
             </a>
-            <a href="#" className="flex items-center hover:text-blue-400 transition-colors duration-200">
+            <a href="#" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <TwitterIcon /> Twitter
             </a>
           </div>
@@ -123,13 +127,7 @@ export default function Footer() {
 
           {/* Logo placeholder */}
           <Link to="/" className="flex items-center space-x-2 select-none hover:opacity-80 transition-opacity">
-            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-              </svg>
-            </div>
-            <span className="font-bold text-gray-300 text-sm tracking-tight">CampusHire</span>
+            <img src={logo} alt="CampusHire" className="h-8 w-auto object-contain brightness-0 invert opacity-80" />
           </Link>
         </div>
       </div>

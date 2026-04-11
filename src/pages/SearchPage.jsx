@@ -152,7 +152,7 @@ export default function SearchPage() {
 
               <div className="relative">
                 <select
-                  className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white focus:ring-2 focus:ring-blue-500 appearance-none outline-none"
+                  className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white focus:ring-2 focus:ring-violet-500 appearance-none outline-none"
                   value={categoryQuery}
                   onChange={(e) => setCategoryQuery(e.target.value)}
                 >
@@ -166,7 +166,7 @@ export default function SearchPage() {
 
               <div className="relative">
                 <select
-                  className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white focus:ring-2 focus:ring-blue-500 appearance-none outline-none"
+                  className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white focus:ring-2 focus:ring-violet-500 appearance-none outline-none"
                   value={jobTypeQuery}
                   onChange={(e) => setJobTypeQuery(e.target.value)}
                 >
@@ -180,7 +180,7 @@ export default function SearchPage() {
 
               <div className="relative">
                 <select
-                  className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white focus:ring-2 focus:ring-blue-500 appearance-none outline-none"
+                  className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white focus:ring-2 focus:ring-violet-500 appearance-none outline-none"
                   value={locationQuery}
                   onChange={(e) => setLocationQuery(e.target.value)}
                 >
@@ -194,7 +194,7 @@ export default function SearchPage() {
 
               <div className="relative">
                 <select
-                  className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white focus:ring-2 focus:ring-blue-500 appearance-none outline-none"
+                  className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white focus:ring-2 focus:ring-violet-500 appearance-none outline-none"
                   value={dateQuery}
                   onChange={(e) => setDateQuery(e.target.value)}
                 >
@@ -220,7 +220,7 @@ export default function SearchPage() {
               <>
                 Found {jobs.length} Job{jobs.length !== 1 ? 's' : ''}
                 {(subQuery || categoryQuery || jobTypeQuery || locationQuery || dateQuery) && (
-                  <span className="text-blue-600 ml-1">
+                  <span className="text-violet-600 ml-1">
                     for the selected filters
                   </span>
                 )}
@@ -232,7 +232,7 @@ export default function SearchPage() {
         {/* Jobs Grid */}
         {loading ? (
           <div className="flex justify-center py-20">
-            <svg className="animate-spin w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin w-8 h-8 text-violet-600" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>

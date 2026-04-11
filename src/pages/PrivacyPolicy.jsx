@@ -12,10 +12,10 @@ export default function PrivacyPolicy() {
           </p>
 
           <p>
-            You can browse and apply for jobs listed at CampusHire anonymously. You can apply for most jobs with just your email address, so you don't have to give out your name, phone number, or other personal information. If your goal is to remain completely anonymous, we recommend that you use an email address that does not reveal your name or place of work. To set-up a free email account, go to: <a href="http://www.yahoo.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">www.yahoo.com</a>
+            You can browse and apply for jobs listed at CampusHire anonymously. You can apply for most jobs with just your email address, so you don't have to give out your name, phone number, or other personal information. If your goal is to remain completely anonymous, we recommend that you use an email address that does not reveal your name or place of work. To set-up a free email account, go to: <a href="http://www.yahoo.com" target="_blank" rel="noopener noreferrer" className="text-violet-600 hover:underline">www.yahoo.com</a>
           </p>
           
-          <ul className="list-disc pl-5 space-y-2 marker:text-blue-500">
+          <ul className="list-disc pl-5 space-y-2 marker:text-violet-500">
             <li>We do not read your private online communications.</li>
             <li>We do not sell, distribute or make available any personal information about you to third parties so they can target you with advertising or marketing campaigns.</li>
             <li>We do not share information entered into our database with other Internet job sites. This includes resumes, cover letters, references, and other material. If you decide to post a resume in our database, you will be able to delete it at any time. We also do not keep any information from your deleted resume on our servers.</li>
@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
           <div className="mt-12 pt-8 border-t border-gray-100">
             <p>
               If you have a question or concern about our privacy commitment, please send an email to:{' '}
-              <a href="mailto:info@campushire.com" className="text-blue-600 font-medium hover:underline">
+              <a href="mailto:info@campushire.com" className="text-violet-600 font-medium hover:underline">
                 info@campushire.com
               </a>.
             </p>

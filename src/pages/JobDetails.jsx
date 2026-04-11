@@ -86,8 +86,8 @@ export default function JobDetails() {
             <p><strong>Status:</strong> <span className="capitalize">{job.status}</span></p>
           </div>
           <div className="space-y-2 md:text-right">
-            <p><strong>Contact Email:</strong> <a href={`mailto:${job.email}`} className="text-blue-600 hover:text-blue-800">{job.email}</a></p>
-            {job.contact_no && <p><strong>Contact Form:</strong> <a href={`tel:${job.contact_no}`} className="text-blue-600 hover:text-blue-800">{job.contact_no}</a></p>}
+            <p><strong>Contact Email:</strong> <a href={`mailto:${job.email}`} className="text-violet-600 hover:text-violet-800">{job.email}</a></p>
+            {job.contact_no && <p><strong>Contact Form:</strong> <a href={`tel:${job.contact_no}`} className="text-violet-600 hover:text-violet-800">{job.contact_no}</a></p>}
           </div>
         </div>
 

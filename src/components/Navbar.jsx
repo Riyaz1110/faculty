@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import logo from '../assets/logo.png'
 
 const engineeringSubCategories = [
   "Architecture Faculty Job", "Aeronautical Faculty Jobs", "Automobile Faculty Job",
@@ -27,7 +28,7 @@ const categories = [
 ]
 
 export default function Navbar() {
-  const { isAdmin, logout } = useAuth()
+  const { isAdmin, user, logout, signInWithGoogle } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -45,20 +46,14 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-              </svg>
-            </div>
-            <span className="text-xl font-bold text-gray-900">CampusHire</span>
+            <img src={logo} alt="CampusHire" className="h-10 w-auto object-contain" />
           </Link>
 
           <div className="hidden md:flex items-center space-x-1 relative">
-            <Link to="/" className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
+            <Link to="/" className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/') ? 'text-violet-600 bg-violet-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
               Home
             </Link>
-            <Link to="/search" className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/search') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
+            <Link to="/search" className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/search') ? 'text-violet-600 bg-violet-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
               Search Jobs
             </Link>
 
@@ -77,7 +72,7 @@ export default function Navbar() {
                           <Link
                             key={i}
                             to={sub.path}
-                            className={`block px-4 py-2 text-xs font-medium ${sub.label === 'View All Departments' ? 'text-blue-600 border-t mt-1 border-gray-50 hover:bg-blue-50' : 'text-gray-600 hover:bg-gray-50 hover:text-blue-600'}`}
+                            className={`block px-4 py-2 text-xs font-medium ${sub.label === 'View All Departments' ? 'text-violet-600 border-t mt-1 border-gray-50 hover:bg-violet-50' : 'text-gray-600 hover:bg-gray-50 hover:text-violet-600'}`}
                           >
                             {sub.label}
                           </Link>
@@ -92,7 +87,7 @@ export default function Navbar() {
                 <Link
                   key={cat.path}
                   to={cat.path}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive(cat.path) ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive(cat.path) ? 'text-violet-600 bg-violet-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
                 >
                   {cat.label}
                 </Link>
@@ -101,21 +96,32 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center space-x-3">
-            <Link to="/post-job" className="hidden md:inline-flex btn-primary text-sm">
-              Post a Job
-            </Link>
             {isAdmin ? (
               <div className="flex items-center space-x-2">
-                <Link to="/admin/dashboard" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                <Link to="/admin/dashboard" className="text-sm text-violet-600 hover:text-violet-700 font-medium">
                   Dashboard
                 </Link>
                 <button onClick={handleLogout} className="text-sm text-gray-500 hover:text-gray-700">
                   Logout
                 </button>
               </div>
+            ) : user ? (
+              <div className="hidden md:flex items-center space-x-3">
+                <Link to="/post-job" className="btn-primary text-sm">
+                  Post a Job
+                </Link>
+                <Link to="/my-postings" className="text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors">
+                  My Postings
+                </Link>
+                <button onClick={handleLogout} className="text-sm text-red-500 hover:text-red-700">
+                  Logout
+                </button>
+              </div>
             ) : (
-              <Link to="/admin/login" className="hidden md:inline-flex text-sm text-gray-500 hover:text-gray-700">
-              </Link>
+              <button onClick={signInWithGoogle} className="hidden md:inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900">
+                <svg className="w-4 h-4" viewBox="0 0 24 24"><path fill="currentColor" d="M21.35,11.1H12.18V13.83H18.69C18.36,17.64 15.19,19.27 12.19,19.27C8.36,19.27 5,16.25 5,12C5,7.9 8.2,4.73 12.2,4.73C15.29,4.73 17.1,6.7 17.1,6.7L19,4.72C19,4.72 16.56,2 12.1,2C6.42,2 2.03,6.8 2.03,12C2.03,17.05 6.16,22 12.25,22C17.6,22 21.5,18.33 21.5,12.91C21.5,11.76 21.35,11.1 21.35,11.1V11.1Z"/></svg>
+                Sign In
+              </button>
             )}
             <button
               className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-50"
@@ -155,7 +161,7 @@ export default function Navbar() {
                         <Link
                           key={i}
                           to={sub.path}
-                          className="block px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded"
+                          className="block px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-violet-600 hover:bg-gray-50 rounded"
                           onClick={() => setMenuOpen(false)}
                         >
                           {sub.label}
@@ -173,8 +179,19 @@ export default function Navbar() {
             )
           })}
 
-          <Link to="/post-job" className="block px-3 py-2 rounded-md text-sm font-medium text-blue-600 hover:bg-blue-50 mt-2" onClick={() => setMenuOpen(false)}>Post a Job</Link>
-          {!isAdmin && <Link to="/admin/login" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>Admin Login</Link>}
+          {!isAdmin && !user && (
+            <button onClick={() => { signInWithGoogle(); setMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 mt-2">
+              Sign In with Google
+            </button>
+          )}
+          {user && (
+            <>
+              <Link to="/post-job" className="block px-3 py-2 rounded-md text-sm font-medium text-violet-600 hover:bg-violet-50 mt-2" onClick={() => setMenuOpen(false)}>Post a Job</Link>
+              <Link to="/my-postings" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>My Postings</Link>
+              <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-red-500 hover:bg-red-50">Logout</button>
+            </>
+          )}
+          {!isAdmin && !user && <Link to="/admin/login" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>Admin Login</Link>}
         </div>
       )}
     </nav>

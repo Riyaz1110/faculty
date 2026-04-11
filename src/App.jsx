@@ -5,6 +5,7 @@ import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import PostJob from './pages/PostJob'
+import MyPostings from './pages/MyPostings'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import CategoryPage from './pages/CategoryPage'
@@ -25,6 +26,7 @@ function PublicLayout() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/post-job" element={<PostJob />} />
+          <Route path="/my-postings" element={<MyPostings />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/engineering" element={<CategoryPage />} />
           <Route path="/polytechnic" element={<CategoryPage />} />
