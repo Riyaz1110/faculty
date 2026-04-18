@@ -5,7 +5,7 @@ export default function AboutUs() {
     <div className="min-h-screen bg-gray-50 py-16 px-4">
       <div className="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-gray-100">
         <h1 className="text-3xl font-bold text-gray-900 mb-6">About Us</h1>
-        
+
         <div className="prose prose-blue max-w-none text-gray-700 space-y-6">
           <p>
             CampusHire was launched to serve as the premier career site dedicated to higher education and faculty jobs. The site is free for job seekers, while employers pay a small fee to advertise job opportunities.
@@ -16,7 +16,7 @@ export default function AboutUs() {
             Our goal at CampusHire is to provide a valuable resource for professors, lecturers, researchers, and those looking to enter this specialized field of teaching and academia.
           </p>
 
-          <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-4">Giving Back</h2>
+          {/* <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-4">Giving Back</h2>
           <p>
             CampusHire is committed to giving back. We have donated thousands of dollars to organizations and schools that support education. We have also helped individual teachers fund educational purchases for their classrooms. Here are some of the groups and individuals we have donated to:
           </p>
@@ -49,7 +49,7 @@ export default function AboutUs() {
               <strong>Educate78.org</strong><br />
               Oakland, California
             </li>
-          </ul>
+          </ul> */}
 
           <div className="mt-12 pt-8 border-t border-gray-100">
             <p className="mb-6">
@@ -58,7 +58,7 @@ export default function AboutUs() {
                 info@campushire.com
               </a>. Thanks for stopping by.
             </p>
-            
+
             <p>
               Best regards,<br />
               <strong>Founder</strong><br />

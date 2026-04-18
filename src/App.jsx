@@ -11,6 +11,9 @@ import AdminDashboard from './pages/AdminDashboard'
 import CategoryPage from './pages/CategoryPage'
 import JobDetails from "./pages/JobDetails";
 import SearchPage from "./pages/SearchPage";
+import EmployerAuth from "./pages/EmployerAuth";
+import PostResume from "./pages/PostResume";
+import BrowseResumes from "./pages/BrowseResumes";
 import ArticlePage from "./pages/ArticlePage";
 import AboutUs from "./pages/AboutUs";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -39,6 +42,9 @@ function PublicLayout() {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsConditions />} />
+          <Route path="/employer-auth" element={<EmployerAuth />} />
+          <Route path="/post-resume" element={<PostResume />} />
+          <Route path="/browse-resumes" element={<BrowseResumes />} />
         </Routes>
       </main>
       <Footer />

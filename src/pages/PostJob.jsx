@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
@@ -52,7 +53,7 @@ export default function PostJob() {
   const [form, setForm] = useState(initialForm)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
-  const { user, authLoading, signInWithGoogle } = useAuth()
+  const { user, isEmployer, authLoading } = useAuth()
 
   useEffect(() => {
     if (user && user.email && !form.email) {
@@ -123,7 +124,7 @@ export default function PostJob() {
     )
   }
 
-  if (!user) {
+  if (!isEmployer) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-10 max-w-md w-full text-center">
@@ -132,12 +133,11 @@ export default function PostJob() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Sign in Required</h2>
-          <p className="text-gray-500 text-sm mb-8">You must be signed in to post a recruitment requirement on CampusHire.</p>
-          <button onClick={signInWithGoogle} className="btn-primary text-sm w-full bg-violet-600 hover:bg-violet-700 text-white py-2.5 rounded transition flex items-center justify-center gap-2">
-            <svg className="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M21.35,11.1H12.18V13.83H18.69C18.36,17.64 15.19,19.27 12.19,19.27C8.36,19.27 5,16.25 5,12C5,7.9 8.2,4.73 12.2,4.73C15.29,4.73 17.1,6.7 17.1,6.7L19,4.72C19,4.72 16.56,2 12.1,2C6.42,2 2.03,6.8 2.03,12C2.03,17.05 6.16,22 12.25,22C17.6,22 21.5,18.33 21.5,12.91C21.5,11.76 21.35,11.1 21.35,11.1V11.1Z"/></svg>
-            Sign in with Google
-          </button>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Employer Account Required</h2>
+          <p className="text-gray-500 text-sm mb-8">You must be logged in as an Employer to post recruitment requirements.</p>
+          <Link to="/employer-auth" state={{ from: { pathname: "/post-job" } }} className="btn-primary text-sm w-full bg-violet-600 hover:bg-violet-700 text-white py-2.5 rounded transition flex items-center justify-center gap-2">
+            Sign In / Register as Employer
+          </Link>
         </div>
       </div>
     )

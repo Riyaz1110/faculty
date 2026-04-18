@@ -28,7 +28,7 @@ const categories = [
 ]
 
 export default function Navbar() {
-  const { isAdmin, user, logout, signInWithGoogle } = useAuth()
+  const { isAdmin, user, isEmployer, logout, signInWithGoogle } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -107,12 +107,19 @@ export default function Navbar() {
               </div>
             ) : user ? (
               <div className="hidden md:flex items-center space-x-3">
-                <Link to="/post-job" className="btn-primary text-sm">
-                  Post a Job
-                </Link>
-                <Link to="/my-postings" className="text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors">
-                  My Postings
-                </Link>
+                {isEmployer && (
+                  <>
+                    <Link to="/post-job" className="btn-primary text-sm">
+                      Post a Job
+                    </Link>
+                    <Link to="/browse-resumes" className="text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors">
+                      Browse Resumes
+                    </Link>
+                    <Link to="/my-postings" className="text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors">
+                      My Postings
+                    </Link>
+                  </>
+                )}
                 <button onClick={handleLogout} className="text-sm text-red-500 hover:text-red-700">
                   Logout
                 </button>
@@ -186,9 +193,14 @@ export default function Navbar() {
           )}
           {user && (
             <>
-              <Link to="/post-job" className="block px-3 py-2 rounded-md text-sm font-medium text-violet-600 hover:bg-violet-50 mt-2" onClick={() => setMenuOpen(false)}>Post a Job</Link>
-              <Link to="/my-postings" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>My Postings</Link>
-              <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-red-500 hover:bg-red-50">Logout</button>
+              {isEmployer && (
+                <>
+                  <Link to="/post-job" className="block px-3 py-2 rounded-md text-sm font-medium text-violet-600 hover:bg-violet-50 mt-2" onClick={() => setMenuOpen(false)}>Post a Job</Link>
+                  <Link to="/browse-resumes" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>Browse Resumes</Link>
+                  <Link to="/my-postings" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>My Postings</Link>
+                </>
+              )}
+              <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-red-500 hover:bg-red-50 mt-2">Logout</button>
             </>
           )}
           {!isAdmin && !user && <Link to="/admin/login" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>Admin Login</Link>}

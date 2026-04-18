@@ -54,7 +54,7 @@ export default function Footer() {
             <Link to="#" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Job Alerts
             </Link>
-            <Link to="#" className="flex items-center hover:text-violet-400 transition-colors duration-200">
+            <Link to="/post-resume" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Post a Resume
             </Link>
             <button onClick={signInWithGoogle} className="flex items-center hover:text-violet-400 transition-colors duration-200 w-full text-left">
@@ -65,18 +65,18 @@ export default function Footer() {
           {/* EMPLOYERS */}
           <div className="flex flex-col gap-3">
             <h3 className="text-white font-bold text-sm tracking-wide mb-2 uppercase">Employers</h3>
-            <button onClick={signInWithGoogle} className="flex items-center hover:text-violet-400 transition-colors duration-200 w-full text-left">
+            <Link to="/employer-auth" className="flex items-center hover:text-violet-400 transition-colors duration-200 w-full text-left">
               <ChevronIcon /> Register
-            </button>
+            </Link>
             <Link to="/post-job" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Post a Job
             </Link>
             <Link to="/post-job" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <ChevronIcon /> Advertising
             </Link>
-            <button onClick={signInWithGoogle} className="flex items-center hover:text-violet-400 transition-colors duration-200 w-full text-left">
+            <Link to="/employer-auth" className="flex items-center hover:text-violet-400 transition-colors duration-200 w-full text-left">
               <ChevronIcon /> Account Login
-            </button>
+            </Link>
           </div>
 
           {/* COMPANY */}
@@ -99,8 +99,8 @@ export default function Footer() {
             <a href="mailto:info@campushire.com" className="flex items-center hover:text-violet-400 transition-colors duration-200">
               <MailIcon /> info@campushire.com
             </a>
-            <a href="tel:5105087386" className="flex items-center hover:text-violet-400 transition-colors duration-200">
-              <PhoneIcon /> 510-508-7386
+            <a href="tel:0000000000" className="flex items-center hover:text-violet-400 transition-colors duration-200">
+              <PhoneIcon /> 000-000-0000
             </a>
           </div>
 

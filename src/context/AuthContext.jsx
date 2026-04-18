@@ -51,8 +51,30 @@ export function AuthProvider({ children }) {
     await supabase.auth.signOut()
   }
 
+  const signUpAsEmployer = async (email, password) => {
+    return await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { role: 'employer' }
+      }
+    })
+  }
+
+  const signInAsEmployer = async (email, password) => {
+    return await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
+  }
+
+  const isEmployer = user?.user_metadata?.role === 'employer'
+
   return (
-    <AuthContext.Provider value={{ isAdmin, user, authLoading, login, logout, signInWithGoogle }}>
+    <AuthContext.Provider value={{ 
+      isAdmin, user, authLoading, login, logout, signInWithGoogle,
+      signUpAsEmployer, signInAsEmployer, isEmployer 
+    }}>
       {children}
     </AuthContext.Provider>
   )
